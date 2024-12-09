@@ -1,0 +1,17 @@
+- name: My first play
+  hosts: myhost
+  tasks:
+   - name: Ping my hosts
+     ansible.builtin.ping:
+     tags: always
+
+   - name: print first message
+     ansible.builtin.debug:
+       msg: hello
+     when: ansible_distribution in ["Ubuntu","RedHat","Amazon"]
+     tags: linux
+
+   - name: Print message
+     ansible.builtin.debug:
+       msg: Hello world
+     tags: linx

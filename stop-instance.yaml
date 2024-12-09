@@ -1,0 +1,9 @@
+---
+- name: stopping an instance
+  hosts: localhost
+  gather_facts: false
+  tasks:
+  - name: stopping a windows22 instance
+    amazon.aws.ec2_instance:
+      state: stopped
+      instance_ids: "i-090cfb6055d6e0999"

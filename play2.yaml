@@ -1,0 +1,8 @@
+---
+- name: My first play
+  hosts: myhost
+  tasks:
+   - name: running script
+     ansible.builtin.script: /home/ec2-user/ansible_quickstart/shell.sh
+     args:
+      chdir: /home/ec2-user/ab

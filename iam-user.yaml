@@ -1,0 +1,33 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: iam user
+      amazon.aws.iam_user:
+        name: viki-test
+        managed_policies:
+          - AmazonEC2ContainerRegistryPullOnly
+        purge_policies: true
+        state: present
+
+    - name: create new iam user viki-test2
+      tags: create
+      amazon.aws.iam_user:
+        name: viki-test2
+        password: NotSuperSecure#1
+        password_reset_required: false
+        update_password: on_create # use always for changing password of existing user
+        path: /vi/test/
+        managed_policies:
+          - AmazonEC2ReadOnlyAccess
+          - EC2InstanceConnect
+        state: present
+        tags:
+          createby: ansible
+          viki: test2
+
+    - name: delete user viki-test2
+      tags: remove
+      amazon.aws.iam_user:
+        name: viki-test2
+        state: absent

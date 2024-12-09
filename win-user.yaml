@@ -1,0 +1,32 @@
+---
+- name: windows user test
+  hosts: win
+  tasks:
+    - name: windows user add group
+      ansible.windows.win_user:
+        name: ansible
+        groups:
+          - Remote Desktop Users
+        groups_action: add
+
+    - name: windows user remove from group
+      ansible.windows.win_user:
+        name: ansible
+        groups:
+          - Remote Desktop Users
+        groups_action: remove
+
+    - name: new windows user
+      tags: newuser
+      ansible.windows.win_user:
+        name: viki
+        fullname: vikitheuser
+        description: test user
+        password: FLJKA@73981
+        update_password: on_create
+        password_never_expires: true
+        groups:
+          - Remote Desktop Users
+          - users
+        groups_action: add
+        state: present

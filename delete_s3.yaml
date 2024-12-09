@@ -1,0 +1,9 @@
+- name: bucket deletion
+  hosts: localhost
+  gather_facts: False
+  tasks:
+    - name: delete the s3 bucket
+      amazon.aws.s3_bucket:
+        name: viki-test-buck-et-000
+        state: absent
+

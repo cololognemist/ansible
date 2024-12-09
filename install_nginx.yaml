@@ -1,0 +1,22 @@
+# module to install 
+- name: installing nginx
+  hosts: myhost
+  become: true
+  tasks:
+  - name: installing nginx
+    dnf:
+      name: nginx
+      state: latest
+  
+  - name: start nginx
+    service:
+      name: nginx
+      state: started
+  
+  - name: transfering file
+    copy:
+      src: files/index.html
+      dest: /usr/share/nginx/html/index.html
+      owner: root
+      group: root
+      mode: 0644

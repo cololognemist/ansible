@@ -1,0 +1,15 @@
+---
+- hosts: win
+  tasks:
+    - name: copy
+      ansible.windows.win_copy:
+        src: ./policy.json
+        dest: C:\Users\Administrator\abc.txt
+        force: true
+    - name: copy from host to host
+      tags: rcp
+      ansible.windows.win_copy:
+        src: C:\Users\Administrator\abc.txt
+        remote_src: true
+        dest: C:\Users\Administrator\Desktop\abc.txt
+        force: true

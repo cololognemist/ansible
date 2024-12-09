@@ -1,0 +1,51 @@
+---
+- name: 
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Security Group Operations
+      amazon.aws.ec2_security_group:
+        name: viki-sg-test
+        description: testing creation of sg by ansible
+        vpc_id: vpc-0be176c8497a3ce55
+        rules:
+          - cidr_ip: 150.249.215.73/32
+           #from_port: 80 #for port range -1 = all port
+           #to_port: 80   #for port range -1 = all port
+            ports:  # it is list but can also include range like 1011-1023
+              - 80
+            proto: tcp
+            rule_desc: port 80
+          - proto: udp
+           #group_id: sg-0e9e02afeb36ee02f  # instead of cidr traffic to/from sg
+            group_name: viki-sg-rdp #same as above but uses SG name
+            ports:
+              - 100
+              - 499
+              - 699
+              - 441
+              - 444
+            rule_desc: the port 100to200 to win
+        rules_egress:
+          - cidr_ip: 0.0.0.0/0 
+            proto: all
+          - proto: tcp
+            group_id: sg-0e9e02afeb36ee02f  # instead of cidr traffic to/from sg
+           #group_name: sg01 #same as above but uses SG name
+            ports:
+              - 100-200
+            group_desc: port 100to200 to win
+            rule_desc: the port 100to200 to win
+       #purge_rules: true # this option deletes all other rules not stated or matched in rules
+       #purge_rules_egress: true # same as above but for outbound
+       #purge_tags: true # same as above but for tags
+       #group_id: sg-abc2192819 # id of sg to be removed used with state=absent 
+        tags:
+          createdby: ansible
+        state: present
+
+#   - name: Security Group deletion
+#     amazon.aws.ec2_security_group:
+#       name: viki-sg-test
+#       state: absent
+

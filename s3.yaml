@@ -1,0 +1,22 @@
+- name: bucket creation
+  hosts: localhost
+  gather_facts: False
+  tasks:
+    - name: create s3 bucket
+      amazon.aws.s3_bucket:
+        name: viki-test-buck-et-000
+        region: ap-northeast-1
+        object_ownership: BucketOwnerEnforced
+        object_lock_enabled: false
+        versioning: false
+       #delete_public_access: true
+        public_access:
+          block_public_acls: false
+          block_public_policy: false
+          ignore_public_acls: false
+          restrict_public_buckets: false
+        policy: "{{ lookup('file','policy.json') }}"
+        tags:
+          createdby: ansible        
+        state: present
+

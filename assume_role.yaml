@@ -1,0 +1,49 @@
+---
+- name: create, assume role to start instance1 
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: create role
+      tags: createrole
+      amazon.aws.iam_role:
+        name: local_ec2
+        max_session_duration: 3600
+        managed_policies:
+          - AmazonEC2FullAccess
+        description: allows ec2 permission
+        assume_role_policy_document: |
+          {
+           "Version": "2012-10-17",
+           "Statement": [
+            {
+             "Effect": "Allow",
+             "Action": "sts:AssumeRole",
+             "Principal": {
+              "AWS": "098851700164"
+               },
+             "Condition": {}
+            }
+               ]
+          }
+        state: present
+        tags:
+          createdby: ansible
+          type: role
+      register: iam_info
+
+    - name: assume role module
+      amazon.aws.sts_assume_role:
+        access_key: AKIAROBAFHXCJESEPDAY
+        secret_key: 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
+        role_arn: "{{ iam_info.iam_role.arn }}"
+        duration_seconds: 1200
+        role_session_name: TEMP
+      register: temp_role
+
+    - name: start instance
+      amazon.aws.ec2_instance:
+        access_key: "{{ temp_role.sts_creds.access_key }}"
+        secret_key: "{{ temp_role.sts_creds.secret_key }}"
+        session_token: "{{ temp_role.sts_creds.session_token }}"
+        instance_ids: "i-090cfb6055d6e0999"
+        state: running

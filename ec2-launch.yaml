@@ -1,0 +1,19 @@
+---
+- name: launching an instance
+  hosts: localhost
+  gather_facts: false
+  tasks:
+   - name: launch a windows22 instance
+     amazon.aws.ec2_instance:
+       name: "viki-windows-test"
+       image_id: ami-045921da241a7a9c6
+       instance_type: t2.micro
+       key_name: "kandasi-kp"
+       region: ap-northeast-1
+       security_group: kandasi-sg01
+       vpc_subnet_id: subnet-03530b4d6b6bf82b3
+       network:
+         assign_public_ip: true
+       tags:
+         deployedby: ansible
+       state: present
