@@ -3,18 +3,18 @@
   hosts: localhost
   gather_facts: false
   tasks:
-    - name: creating instance profile
-      amazon.aws.iam_instance_profile:
-        access_key: AKIAROBAFHXCJESEPDAY
-        secret_key: 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
-        name: viki-another
-        role: viki-s3read-o
-        path: /org/comp/here/
-        state: present
+#   - name: creating instance profile
+#     amazon.aws.iam_instance_profile:
+#       access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+#       secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
+#       name: viki-another
+#       role: viki-s3read-o
+#       path: /org/comp/here/
+#       state: present
     - name: now delete the instance profile
       amazon.aws.iam_instance_profile:
-        access_key: AKIAROBAFHXCJESEPDAY
-        secret_key: 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
+        access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+        secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
         name: viki-another
         state: absent
         

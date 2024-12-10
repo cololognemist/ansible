@@ -18,5 +18,5 @@
         policy: "{{ lookup('file','policy.json') }}"
         tags:
           createdby: ansible        
-        state: present
+        state: absent
 

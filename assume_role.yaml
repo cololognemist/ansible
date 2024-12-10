@@ -33,8 +33,8 @@
 
     - name: assume role module
       amazon.aws.sts_assume_role:
-        access_key: AKIAROBAFHXCJESEPDAY
-        secret_key: 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
+        access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+      secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
         role_arn: "{{ iam_info.iam_role.arn }}"
         duration_seconds: 1200
         role_session_name: TEMP

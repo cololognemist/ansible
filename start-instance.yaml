@@ -5,5 +5,7 @@
   tasks:
   - name: starting a windows22 instance
     amazon.aws.ec2_instance:
+      access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+      secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
       state: running
       instance_ids: "i-090cfb6055d6e0999"
